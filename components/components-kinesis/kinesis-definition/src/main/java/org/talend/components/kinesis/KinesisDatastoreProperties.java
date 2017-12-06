@@ -19,10 +19,28 @@ import static org.talend.daikon.properties.property.PropertyFactory.*;
 import org.talend.components.common.datastore.DatastoreProperties;
 import org.talend.daikon.properties.PropertiesImpl;
 import org.talend.daikon.properties.presentation.Form;
+import org.talend.daikon.properties.presentation.Widget;
 import org.talend.daikon.properties.property.Property;
 import org.talend.daikon.properties.property.PropertyFactory;
 
+import java.util.EnumSet;
+
 public class KinesisDatastoreProperties extends PropertiesImpl implements DatastoreProperties {
+
+    public Property<Boolean> specifyCredentials = PropertyFactory.newBoolean("specifyCredentials", true).setRequired();
+
+    public Property<String> accessKey = PropertyFactory.newString("accessKey");
+
+    public Property<String> secretKey = PropertyFactory.newString("secretKey").setFlags(
+            EnumSet.of(Property.Flags.ENCRYPT, Property.Flags.SUPPRESS_LOGGING));
+
+    public Property<Boolean> specifySTS = PropertyFactory.newBoolean("specifySTS", false).setRequired();
+
+    public Property<String> roleArn = PropertyFactory.newString("roleArn");
+
+    public Property<String> roleSessionName = PropertyFactory.newString("roleSessionName");
+
+    public Property<String> roleExternalId = PropertyFactory.newString("roleExternalId");
 
     public KinesisDatastoreProperties(String name) {
         super(name);
@@ -31,7 +49,44 @@ public class KinesisDatastoreProperties extends PropertiesImpl implements Datast
     @Override
     public void setupLayout() {
         super.setupLayout();
-        Form mainForm=new Form(this,Form.MAIN);
+        Form mainForm = new Form(this, Form.MAIN);
+        mainForm.addRow(specifyCredentials);
+        mainForm.addRow(accessKey);
+        mainForm.addRow(widget(secretKey).setWidgetType(Widget.HIDDEN_TEXT_WIDGET_TYPE));
+        mainForm.addRow(specifySTS);
+        mainForm.addRow(roleArn);
+        mainForm.addRow(roleSessionName);
+        mainForm.addRow(roleExternalId);
+    }
+
+    @Override
+    public void refreshLayout(Form form) {
+        super.refreshLayout(form);
+        // Main properties
+        if (form.getName().equals(Form.MAIN)) {
+            // handle S3
+            final boolean isSpecifyCredentialsEnabled = specifyCredentials.getValue();
+            accessKey.setRequired(isSpecifyCredentialsEnabled);
+            secretKey.setRequired(isSpecifyCredentialsEnabled);
+            form.getWidget(accessKey.getName()).setVisible(isSpecifyCredentialsEnabled);
+            form.getWidget(secretKey.getName()).setVisible(isSpecifyCredentialsEnabled);
+
+            final boolean isSpecifySTS = specifySTS.getValue();
+            roleArn.setRequired(isSpecifySTS);
+            roleSessionName.setRequired(isSpecifySTS);
+            roleExternalId.setRequired(isSpecifySTS);
+            form.getWidget(roleArn.getName()).setVisible(isSpecifySTS);
+            form.getWidget(roleSessionName.getName()).setVisible(isSpecifySTS);
+            form.getWidget(roleExternalId.getName()).setVisible(isSpecifySTS);
+        }
+    }
+
+    public void afterSpecifyCredentials() {
+        refreshLayout(getForm(Form.MAIN));
+    }
+
+    public void afterSpecifySTS() {
+        refreshLayout(getForm(Form.MAIN));
     }
 
 }

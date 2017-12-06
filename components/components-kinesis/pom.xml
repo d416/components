@@ -17,6 +17,7 @@
     <modules>
         <module>kinesis-definition</module>
         <module>kinesis-runtime</module>
+        <module>kinesis-integration</module>
     </modules>
 
     <build>

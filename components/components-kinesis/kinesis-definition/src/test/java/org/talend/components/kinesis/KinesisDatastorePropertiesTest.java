@@ -13,6 +13,8 @@
 
 package org.talend.components.kinesis;
 
+import org.hamcrest.Matchers;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -21,14 +23,25 @@ import org.talend.components.api.test.ComponentTestUtils;
 import org.talend.daikon.properties.presentation.Form;
 import org.talend.daikon.properties.presentation.Widget;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class KinesisDatastorePropertiesTest {
+
+    /**
+     * Useful constant listing all of the fields in the properties.
+     */
+    public static final Iterable<String> ALL = Arrays.asList("specifyCredentials", "accessKey", "secretKey",
+            "specifySTS", "roleArn", "roleSessionName", "roleExternalId");
 
     @Rule
     public ErrorCollector errorCollector = new ErrorCollector();
@@ -52,6 +65,8 @@ public class KinesisDatastorePropertiesTest {
      */
     @Test
     public void testDefaultProperties() {
+        assertTrue(properties.specifyCredentials.getValue());
+        assertFalse(properties.specifySTS.getValue());
     }
 
     /**
@@ -62,6 +77,30 @@ public class KinesisDatastorePropertiesTest {
     public void testSetupLayout() {
         Form main = properties.getForm(Form.MAIN);
         Collection<Widget> mainWidgets = main.getWidgets();
+        assertThat(main, notNullValue());
+        assertThat(main.getWidgets(), Matchers.<Widget> hasSize(7));
+
+        for (String field : ALL) {
+            Widget w = main.getWidget(field);
+            Assert.assertThat(w, notNullValue());
+        }
+
+        assertTrue(main.getWidget("specifyCredentials").isVisible());
+        assertTrue(main.getWidget("accessKey").isVisible());
+        assertTrue(main.getWidget("secretKey").isVisible());
+        assertTrue(properties.specifyCredentials.isRequired());
+        assertTrue(properties.accessKey.isRequired());
+        assertTrue(properties.secretKey.isRequired());
+        assertThat(main.getWidget("secretKey").getWidgetType(), is(Widget.HIDDEN_TEXT_WIDGET_TYPE));
+
+        assertTrue(main.getWidget("specifySTS").isVisible());
+        assertFalse(main.getWidget("roleArn").isVisible());
+        assertFalse(main.getWidget("roleSessionName").isVisible());
+        assertFalse(main.getWidget("roleExternalId").isVisible());
+        assertTrue(properties.specifySTS.isRequired());
+        assertFalse(properties.roleArn.isRequired());
+        assertFalse(properties.roleSessionName.isRequired());
+        assertFalse(properties.roleExternalId.isRequired());
     }
 
     /**
@@ -70,6 +109,40 @@ public class KinesisDatastorePropertiesTest {
      */
     @Test
     public void testRefreshLayout() {
-        properties.refreshLayout(properties.getForm(Form.MAIN));
+        Form main = properties.getForm(Form.MAIN);
+
+        // set false to specify credentials
+        properties.specifyCredentials.setValue(false);
+        properties.afterSpecifyCredentials();
+
+        assertTrue(main.getWidget("specifyCredentials").isVisible());
+        assertFalse(main.getWidget("accessKey").isVisible());
+        assertFalse(main.getWidget("secretKey").isVisible());
+        assertTrue(properties.specifyCredentials.isRequired());
+        assertFalse(properties.accessKey.isRequired());
+        assertFalse(properties.secretKey.isRequired());
+
+        // set back true to specify credentials
+        properties.specifyCredentials.setValue(true);
+        properties.afterSpecifyCredentials();
+        testSetupLayout();
+
+        // set true to specify STS
+        properties.specifySTS.setValue(true);
+        properties.afterSpecifySTS();
+
+        assertTrue(main.getWidget("specifySTS").isVisible());
+        assertTrue(main.getWidget("roleArn").isVisible());
+        assertTrue(main.getWidget("roleSessionName").isVisible());
+        assertTrue(main.getWidget("roleExternalId").isVisible());
+        assertTrue(properties.specifySTS.isRequired());
+        assertTrue(properties.roleArn.isRequired());
+        assertTrue(properties.roleSessionName.isRequired());
+        assertTrue(properties.roleExternalId.isRequired());
+
+        // set back false to specify STS
+        properties.specifySTS.setValue(false);
+        properties.afterSpecifySTS();
+        testSetupLayout();
     }
 }
