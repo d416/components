@@ -174,13 +174,13 @@ public class CommonUtils {
         setting.setPassword(connection.userPassword.password.getValue());
     }
 
-    private static Pattern pattern = Pattern.compile("^SELECT\\s+((?!((\\bINTO\\b)|(\\bFOR\\s+UPDATE\\b)|(\\bLOCK\\s+IN\\s+SHARE\\s+MODE\\b))).)+$",
+    private static Pattern pattern = Pattern.compile(
+            "^SELECT\\s+((?!((\\bINTO\\b)|(\\bFOR\\s+UPDATE\\b)|(\\bLOCK\\s+IN\\s+SHARE\\s+MODE\\b))).)+$",
             Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
 
     /**
      * validate if the sql is a pure query statement which don't write or lock something, if a query, return it, if not, throw
-     * some
-     * exception
+     * some exception
      * 
      * @param query
      * @return
