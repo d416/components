@@ -19,9 +19,9 @@ public class KinesisDatastoreRuntimeTestIT {
         KinesisDatastoreProperties datastore = new KinesisDatastoreProperties("kinesisDatastore");
         String awsAccessKey = System.getProperty("aws.accesskey");
         String awsSecretKey = System.getProperty("aws.secretkey");
-        if(StringUtils.isEmpty(awsAccessKey) || StringUtils.isEmpty(awsSecretKey)) {
+        if (StringUtils.isEmpty(awsAccessKey) || StringUtils.isEmpty(awsSecretKey)) {
             datastore.specifyCredentials.setValue(false);
-        }else {
+        } else {
             datastore.accessKey.setValue(awsAccessKey);
             datastore.secretKey.setValue(awsSecretKey);
         }
@@ -33,8 +33,8 @@ public class KinesisDatastoreRuntimeTestIT {
 
         KinesisDatastoreProperties props = getDatastore();
         RuntimeInfo ri = def.getRuntimeInfo(props);
-        try(SandboxedInstance si = RuntimeUtil.createRuntimeClass(ri, getClass().getClassLoader())) {
-            DatastoreRuntime runtime = (DatastoreRuntime)si.getInstance();
+        try (SandboxedInstance si = RuntimeUtil.createRuntimeClass(ri, getClass().getClassLoader())) {
+            DatastoreRuntime runtime = (DatastoreRuntime) si.getInstance();
             runtime.initialize(null, props);
             Iterable<ValidationResult> validationResults = runtime.doHealthChecks(null);
             Assert.assertEquals(ValidationResult.OK, validationResults.iterator().next());

@@ -13,12 +13,11 @@
 
 package org.talend.components.kinesis;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Ignore;
 import org.junit.Test;
-
 import org.talend.daikon.runtime.RuntimeInfo;
-
-import static org.junit.Assert.assertEquals;
 
 public class KinesisDatastoreDefinitionTest {
 
@@ -32,6 +31,7 @@ public class KinesisDatastoreDefinitionTest {
     @Ignore("This can't work unless the runtime jar is already installed in maven!")
     public void testRuntimeInfo() {
         RuntimeInfo runtimeInfo = datastoreDefinition.getRuntimeInfo(null);
-        assertEquals("org.talend.components.kinesis.runtime.KinesisDatastoreRuntime", runtimeInfo.getRuntimeClassName());
+        assertEquals("org.talend.components.kinesis.runtime.KinesisDatastoreRuntime",
+                runtimeInfo.getRuntimeClassName());
     }
 }

@@ -13,6 +13,16 @@
 
 package org.talend.components.kinesis;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
@@ -23,25 +33,13 @@ import org.talend.components.api.test.ComponentTestUtils;
 import org.talend.daikon.properties.presentation.Form;
 import org.talend.daikon.properties.presentation.Widget;
 
-import java.util.Arrays;
-import java.util.Collection;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
 public class KinesisDatastorePropertiesTest {
 
     /**
      * Useful constant listing all of the fields in the properties.
      */
-    public static final Iterable<String> ALL = Arrays.asList("specifyCredentials", "accessKey", "secretKey",
-            "specifySTS", "roleArn", "roleSessionName", "roleExternalId");
+    public static final List<String> ALL = Arrays.asList("specifyCredentials", "accessKey", "secretKey", "specifySTS",
+            "roleArn", "roleSessionName", "roleExternalId");
 
     @Rule
     public ErrorCollector errorCollector = new ErrorCollector();
@@ -78,7 +76,7 @@ public class KinesisDatastorePropertiesTest {
         Form main = properties.getForm(Form.MAIN);
         Collection<Widget> mainWidgets = main.getWidgets();
         assertThat(main, notNullValue());
-        assertThat(main.getWidgets(), Matchers.<Widget> hasSize(7));
+        assertThat(main.getWidgets(), Matchers.<Widget> hasSize(ALL.size()));
 
         for (String field : ALL) {
             Widget w = main.getWidget(field);

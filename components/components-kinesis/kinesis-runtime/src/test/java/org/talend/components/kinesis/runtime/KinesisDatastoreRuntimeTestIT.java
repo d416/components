@@ -20,9 +20,9 @@ public class KinesisDatastoreRuntimeTestIT {
         KinesisDatastoreProperties datastore = new KinesisDatastoreProperties("kinesisDatastore");
         String awsAccessKey = System.getProperty("aws.accesskey");
         String awsSecretKey = System.getProperty("aws.secretkey");
-        if(StringUtils.isEmpty(awsAccessKey) || StringUtils.isEmpty(awsSecretKey)) {
+        if (StringUtils.isEmpty(awsAccessKey) || StringUtils.isEmpty(awsSecretKey)) {
             datastore.specifyCredentials.setValue(false);
-        }else {
+        } else {
             datastore.accessKey.setValue(awsAccessKey);
             datastore.secretKey.setValue(awsSecretKey);
         }

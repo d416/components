@@ -157,7 +157,8 @@
                             <instructions>
                                 <Bundle-SymbolicName>org.talend.components.kinesis</Bundle-SymbolicName>
                                 <Service-Component>*</Service-Component>
-                                <Embed-Dependency>*;scope=compile|runtime;inline=false;artifactId=!components*|auto-service
+                                <Embed-Dependency>
+                                    *;scope=compile|runtime;inline=false;artifactId=!components*|auto-service
                                 </Embed-Dependency>
                                 <Include-Resource>
                                     {maven-resources},META-INF/maven/${project.groupId}/${project.artifactId}/dependencies.txt=target/classes/META-INF/maven/${project.groupId}/${project.artifactId}/dependencies.txt

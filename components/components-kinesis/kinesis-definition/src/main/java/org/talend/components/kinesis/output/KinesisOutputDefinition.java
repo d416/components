@@ -45,19 +45,21 @@ public class KinesisOutputDefinition extends AbstractComponentDefinition {
     }
 
     @Override
-    public RuntimeInfo getRuntimeInfo(ExecutionEngine engine, ComponentProperties properties, ConnectorTopology topology){
+    public RuntimeInfo getRuntimeInfo(ExecutionEngine engine, ComponentProperties properties,
+            ConnectorTopology topology) {
         assertEngineCompatibility(engine);
         assertConnectorTopologyCompatibility(topology);
-        try{
+        try {
             return new JarRuntimeInfo(new URL("mvn:org.talend.components/kinesis-runtime"),
-                    DependenciesReader.computeDependenciesFilePath("org.talend.components","kinesis-runtime"), RUNTIME);
-        }catch(MalformedURLException e){
+                    DependenciesReader.computeDependenciesFilePath("org.talend.components", "kinesis-runtime"),
+                    RUNTIME);
+        } catch (MalformedURLException e) {
             throw new ComponentException(e);
         }
     }
 
     public Property[] getReturnProperties() {
-        return new Property[]{};
+        return new Property[] {};
     }
 
     public Set<ConnectorTopology> getSupportedConnectorTopologies() {

@@ -27,7 +27,8 @@ import org.talend.daikon.definition.DefinitionImageType;
 import org.talend.daikon.definition.I18nDefinition;
 import org.talend.daikon.runtime.RuntimeInfo;
 
-public class KinesisDatastoreDefinition extends I18nDefinition implements DatastoreDefinition<KinesisDatastoreProperties> {
+public class KinesisDatastoreDefinition extends I18nDefinition
+        implements DatastoreDefinition<KinesisDatastoreProperties> {
 
     public static final String RUNTIME = "org.talend.components.kinesis.runtime.KinesisDatastoreRuntime";
 
@@ -46,7 +47,8 @@ public class KinesisDatastoreDefinition extends I18nDefinition implements Datast
     public RuntimeInfo getRuntimeInfo(KinesisDatastoreProperties properties) {
         try {
             return new JarRuntimeInfo(new URL("mvn:org.talend.components/kinesis-runtime"),
-                    DependenciesReader.computeDependenciesFilePath("org.talend.components", "kinesis-runtime"), RUNTIME);
+                    DependenciesReader.computeDependenciesFilePath("org.talend.components", "kinesis-runtime"),
+                    RUNTIME);
         } catch (MalformedURLException e) {
             throw new ComponentException(e);
         }
@@ -54,17 +56,17 @@ public class KinesisDatastoreDefinition extends I18nDefinition implements Datast
 
     @Deprecated
     @Override
-    public String getImagePath(){
+    public String getImagePath() {
         return NAME + "_icon32.png";
     }
 
     @Override
     public String getImagePath(DefinitionImageType type) {
         switch (type) {
-            case PALETTE_ICON_32X32:
-                return NAME + "_icon32.png";
-            case SVG_ICON:
-                return NAME + ".svg";
+        case PALETTE_ICON_32X32:
+            return NAME + "_icon32.png";
+        case SVG_ICON:
+            return NAME + ".svg";
         }
         return null;
     }

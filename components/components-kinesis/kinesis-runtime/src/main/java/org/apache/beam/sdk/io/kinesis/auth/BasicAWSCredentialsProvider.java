@@ -1,13 +1,16 @@
 package org.apache.beam.sdk.io.kinesis.auth;
 
+import org.apache.beam.sdk.repackaged.org.apache.commons.lang3.StringUtils;
+
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
-import org.apache.beam.sdk.repackaged.org.apache.commons.lang3.StringUtils;
 
 public class BasicAWSCredentialsProvider implements AWSCredentialsProvider {
+
     private final String accessKey;
+
     private final String secretKey;
 
     public BasicAWSCredentialsProvider(String accessKey, String secretKey) {

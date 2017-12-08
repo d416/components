@@ -14,7 +14,8 @@
 package org.talend.components.kinesis;
 
 import static org.talend.daikon.properties.presentation.Widget.widget;
-import static org.talend.daikon.properties.property.PropertyFactory.*;
+
+import java.util.EnumSet;
 
 import org.talend.components.common.datastore.DatastoreProperties;
 import org.talend.daikon.properties.PropertiesImpl;
@@ -22,8 +23,6 @@ import org.talend.daikon.properties.presentation.Form;
 import org.talend.daikon.properties.presentation.Widget;
 import org.talend.daikon.properties.property.Property;
 import org.talend.daikon.properties.property.PropertyFactory;
-
-import java.util.EnumSet;
 
 public class KinesisDatastoreProperties extends PropertiesImpl implements DatastoreProperties {
 

@@ -6,11 +6,8 @@ import static org.junit.Assert.assertThat;
 import javax.inject.Inject;
 
 import org.junit.Test;
-import org.talend.components.api.service.ComponentService;
-import org.talend.components.api.test.AbstractComponentTest;
 import org.talend.components.api.test.AbstractComponentTest2;
 import org.talend.components.kinesis.input.KinesisInputDefinition;
-import org.talend.components.kinesis.output.KinesisOutputDefinition;
 import org.talend.daikon.definition.Definition;
 import org.talend.daikon.definition.service.DefinitionRegistryService;
 

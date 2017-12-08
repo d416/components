@@ -13,22 +13,16 @@
 
 package org.talend.components.kinesis;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.talend.components.api.ComponentFamilyDefinition;
-import org.talend.components.api.ComponentInstaller;
-
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 
-public class KinesisComponentFamilyDefinitionTest{
+import org.junit.Test;
+import org.mockito.Mockito;
+import org.talend.components.api.ComponentFamilyDefinition;
+import org.talend.components.api.ComponentInstaller;
+
+public class KinesisComponentFamilyDefinitionTest {
 
     private final KinesisComponentFamilyDefinition componentFamilyDefinition = new KinesisComponentFamilyDefinition();
 
@@ -44,10 +38,11 @@ public class KinesisComponentFamilyDefinitionTest{
     }
 
     /**
-     * Check {@link KinesisComponentFamilyDefinition#install(ComponentInstaller.ComponentFrameworkContext ctx)} which call once the method "registerComponentFamilyDefinition"
+     * Check {@link KinesisComponentFamilyDefinition#install(ComponentInstaller.ComponentFrameworkContext ctx)} which
+     * call once the method "registerComponentFamilyDefinition"
      */
     @Test
-    public void testInstall(){
+    public void testInstall() {
         componentFamilyDefinition.install(ctx);
         Mockito.verify(ctx, times(1)).registerComponentFamilyDefinition(any(ComponentFamilyDefinition.class));
     }

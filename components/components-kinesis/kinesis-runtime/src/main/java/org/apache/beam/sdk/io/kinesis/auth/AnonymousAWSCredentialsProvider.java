@@ -5,6 +5,7 @@ import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.auth.AnonymousAWSCredentials;
 
 public class AnonymousAWSCredentialsProvider implements AWSCredentialsProvider {
+
     public AnonymousAWSCredentialsProvider() {
     }
 

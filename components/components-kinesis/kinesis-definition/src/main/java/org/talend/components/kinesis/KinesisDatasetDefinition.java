@@ -24,7 +24,6 @@ import org.talend.daikon.definition.DefinitionImageType;
 import org.talend.daikon.definition.I18nDefinition;
 import org.talend.daikon.runtime.RuntimeInfo;
 
-
 public class KinesisDatasetDefinition extends I18nDefinition implements DatasetDefinition<KinesisDatasetProperties> {
 
     public static final String RUNTIME = "org.talend.components.kinesis.runtime.KinesisDatasetRuntime";
@@ -44,7 +43,8 @@ public class KinesisDatasetDefinition extends I18nDefinition implements DatasetD
     public RuntimeInfo getRuntimeInfo(KinesisDatasetProperties properties) {
         try {
             return new JarRuntimeInfo(new URL("mvn:org.talend.components/kinesis-runtime"),
-                    DependenciesReader.computeDependenciesFilePath("org.talend.components", "kinesis-runtime"), RUNTIME);
+                    DependenciesReader.computeDependenciesFilePath("org.talend.components", "kinesis-runtime"),
+                    RUNTIME);
         } catch (MalformedURLException e) {
             throw new ComponentException(e);
         }
@@ -52,17 +52,17 @@ public class KinesisDatasetDefinition extends I18nDefinition implements DatasetD
 
     @Deprecated
     @Override
-    public String getImagePath(){
+    public String getImagePath() {
         return NAME + "_icon32.png";
     }
 
     @Override
     public String getImagePath(DefinitionImageType type) {
         switch (type) {
-            case PALETTE_ICON_32X32:
-                return NAME + "_icon32.png";
-            case SVG_ICON:
-                return NAME + ".svg";
+        case PALETTE_ICON_32X32:
+            return NAME + "_icon32.png";
+        case SVG_ICON:
+            return NAME + ".svg";
         }
         return null;
     }

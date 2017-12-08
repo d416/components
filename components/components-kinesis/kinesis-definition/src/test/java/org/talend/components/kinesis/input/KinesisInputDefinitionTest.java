@@ -13,20 +13,21 @@
 
 package org.talend.components.kinesis.input;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Set;
+
 import org.junit.Ignore;
 import org.junit.Test;
 import org.talend.components.api.component.ConnectorTopology;
 import org.talend.components.api.component.runtime.ExecutionEngine;
 import org.talend.daikon.runtime.RuntimeInfo;
 
-import java.util.Set;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 public class KinesisInputDefinitionTest {
+
     private final KinesisInputDefinition inputDefinition = new KinesisInputDefinition();
 
     @Test
@@ -52,7 +53,7 @@ public class KinesisInputDefinitionTest {
      * Check {@link KinesisInputDefinition} returns "KinesisInput"
      */
     @Test
-    public void testGetName(){
+    public void testGetName() {
         String componentName = inputDefinition.getName();
         assertEquals(componentName, "KinesisInput");
     }
@@ -61,7 +62,7 @@ public class KinesisInputDefinitionTest {
      * Check {@link KinesisInputDefinition#getSupportedConnectorTopologies()} returns ConnectorTopology.OUTGOING
      */
     @Test
-    public void testGetSupportedConnectorTopologies(){
+    public void testGetSupportedConnectorTopologies() {
         Set<ConnectorTopology> test = inputDefinition.getSupportedConnectorTopologies();
         assertTrue(test.contains(ConnectorTopology.OUTGOING));
     }

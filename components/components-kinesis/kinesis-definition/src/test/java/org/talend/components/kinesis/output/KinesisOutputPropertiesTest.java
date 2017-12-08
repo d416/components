@@ -13,6 +13,8 @@
 
 package org.talend.components.kinesis.output;
 
+import java.util.Collection;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -21,14 +23,6 @@ import org.talend.components.api.test.ComponentTestUtils;
 import org.talend.components.kinesis.KinesisDatastoreProperties;
 import org.talend.daikon.properties.presentation.Form;
 import org.talend.daikon.properties.presentation.Widget;
-
-import java.util.Collection;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 public class KinesisOutputPropertiesTest {
 
@@ -47,7 +41,6 @@ public class KinesisOutputPropertiesTest {
     public void testI18N() {
         ComponentTestUtils.checkAllI18N(properties, errorCollector);
     }
-
 
     /**
      * Checks {@link KinesisOutputProperties} sets correctly initial schema

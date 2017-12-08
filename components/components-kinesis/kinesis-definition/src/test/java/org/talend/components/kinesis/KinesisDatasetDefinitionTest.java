@@ -13,12 +13,11 @@
 
 package org.talend.components.kinesis;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Ignore;
 import org.junit.Test;
-
 import org.talend.daikon.runtime.RuntimeInfo;
-
-import static org.junit.Assert.assertEquals;
 
 public class KinesisDatasetDefinitionTest {
 

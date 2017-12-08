@@ -12,16 +12,17 @@
 // ============================================================================
 package org.talend.components.kinesis.runtime;
 
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.kinesis.AmazonKinesis;
-import com.amazonaws.services.kinesis.model.ListStreamsResult;
+import java.util.Arrays;
+
 import org.apache.beam.sdk.io.kinesis.TalendKinesisProvider;
 import org.talend.components.api.container.RuntimeContainer;
 import org.talend.components.common.datastore.runtime.DatastoreRuntime;
 import org.talend.components.kinesis.KinesisDatastoreProperties;
 import org.talend.daikon.properties.ValidationResult;
 
-import java.util.Arrays;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.kinesis.AmazonKinesis;
+import com.amazonaws.services.kinesis.model.ListStreamsResult;
 
 public class KinesisDatastoreRuntime implements DatastoreRuntime<KinesisDatastoreProperties> {
 

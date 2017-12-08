@@ -13,10 +13,12 @@
 
 package org.talend.components.kinesis.input;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.talend.components.api.component.Connector;
 import org.talend.components.api.component.PropertyPathConnector;
-import org.talend.components.api.properties.ComponentPropertiesImpl;
-
 import org.talend.components.common.FixedConnectorsComponentProperties;
 import org.talend.components.common.dataset.DatasetProperties;
 import org.talend.components.common.io.IOProperties;
@@ -25,16 +27,13 @@ import org.talend.components.kinesis.KinesisDatasetProperties;
 import org.talend.daikon.properties.ReferenceProperties;
 import org.talend.daikon.properties.presentation.Form;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
 public class KinesisInputProperties extends FixedConnectorsComponentProperties implements IOProperties {
 
-    public ReferenceProperties<KinesisDatasetProperties> datasetRef = new ReferenceProperties<>("datasetRef",
-        KinesisDatasetDefinition.NAME);
+    public ReferenceProperties<KinesisDatasetProperties> datasetRef =
+            new ReferenceProperties<>("datasetRef", KinesisDatasetDefinition.NAME);
 
-    protected transient PropertyPathConnector MAIN_CONNECTOR = new PropertyPathConnector(Connector.MAIN_NAME, "dataset.main");
+    protected transient PropertyPathConnector MAIN_CONNECTOR =
+            new PropertyPathConnector(Connector.MAIN_NAME, "dataset.main");
 
     public KinesisInputProperties(String name) {
         super(name);

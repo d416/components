@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>org.talend.components</groupId>
@@ -61,15 +61,15 @@
         </dependency>
         <!-- necessary for Spark unit tests -->
         <!--<dependency>-->
-            <!--<groupId>org.apache.beam</groupId>-->
-            <!--<artifactId>beam-runners-spark</artifactId>-->
-            <!--<version>${beam.version}</version>-->
+        <!--<groupId>org.apache.beam</groupId>-->
+        <!--<artifactId>beam-runners-spark</artifactId>-->
+        <!--<version>${beam.version}</version>-->
         <!--</dependency>-->
         <!--<dependency>-->
-            <!--<groupId>org.apache.spark</groupId>-->
-            <!--<artifactId>spark-streaming_2.10</artifactId>-->
-            <!--<version>${spark.version}</version>-->
-            <!--<scope>test</scope>-->
+        <!--<groupId>org.apache.spark</groupId>-->
+        <!--<artifactId>spark-streaming_2.10</artifactId>-->
+        <!--<version>${spark.version}</version>-->
+        <!--<scope>test</scope>-->
         <!--</dependency>-->
     </dependencies>
 

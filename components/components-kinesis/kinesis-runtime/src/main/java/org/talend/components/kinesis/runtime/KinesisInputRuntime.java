@@ -13,24 +13,16 @@
 package org.talend.components.kinesis.runtime;
 
 import org.apache.avro.generic.IndexedRecord;
-import org.apache.beam.sdk.coders.KvCoder;
-import org.apache.beam.sdk.coders.VoidCoder;
-import org.apache.beam.sdk.io.Read;
-
-import org.apache.beam.sdk.transforms.*;
-import org.apache.beam.sdk.values.KV;
+import org.apache.beam.sdk.transforms.PTransform;
 import org.apache.beam.sdk.values.PBegin;
 import org.apache.beam.sdk.values.PCollection;
-
-import org.talend.components.adapter.beam.coders.LazyAvroCoder;
-import org.talend.components.adapter.beam.transform.ConvertToIndexedRecord;
 import org.talend.components.api.component.runtime.RuntimableRuntime;
 import org.talend.components.api.container.RuntimeContainer;
 import org.talend.components.kinesis.input.KinesisInputProperties;
 import org.talend.daikon.properties.ValidationResult;
 
-public class KinesisInputRuntime extends PTransform<PBegin, PCollection<IndexedRecord>> implements
-        RuntimableRuntime<KinesisInputProperties> {
+public class KinesisInputRuntime extends PTransform<PBegin, PCollection<IndexedRecord>>
+        implements RuntimableRuntime<KinesisInputProperties> {
 
     /**
      * The component instance that this runtime is configured for.
