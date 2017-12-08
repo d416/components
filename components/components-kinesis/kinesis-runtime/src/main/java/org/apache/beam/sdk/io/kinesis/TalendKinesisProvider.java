@@ -29,9 +29,14 @@ public class TalendKinesisProvider implements KinesisClientProvider {
 
     private final String externalId;
 
+    private final boolean specifyEndpoint;
+
+    private final String endpoint;
+
     // TODO add builder
     public TalendKinesisProvider(boolean specifyCredentials, String accessKey, String secretKey, Regions region,
-            boolean specifySTS, String roleArn, String roleSessionName, String externalId) {
+            boolean specifySTS, String roleArn, String roleSessionName, String externalId, boolean specifyEndpoint,
+            String endpoint) {
         this.specifyCredentials = specifyCredentials;
         this.accessKey = accessKey;
         this.secretKey = secretKey;
@@ -40,11 +45,13 @@ public class TalendKinesisProvider implements KinesisClientProvider {
         this.roleArn = roleArn;
         this.roleSessionName = roleSessionName;
         this.externalId = externalId;
+        this.specifyEndpoint = specifyEndpoint;
+        this.endpoint = endpoint;
     }
 
     @Override
     public AmazonKinesis get() {
-        AWSCredentialsProviderChain credentials;
+        AWSCredentialsProviderChain credentials = null;
         if (specifyCredentials) {
             credentials = new AWSCredentialsProviderChain(new BasicAWSCredentialsProvider(accessKey, secretKey),
                     new DefaultAWSCredentialsProviderChain(), new AnonymousAWSCredentialsProvider());
@@ -64,6 +71,9 @@ public class TalendKinesisProvider implements KinesisClientProvider {
         }
         AmazonKinesisClient client = new AmazonKinesisClient(credentials);
         client.withRegion(region);
+        if (specifyEndpoint) {
+            client.setEndpoint(endpoint);
+        }
         return client;
     }
 }

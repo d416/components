@@ -14,13 +14,11 @@ package org.talend.components.kinesis.runtime;
 
 import java.util.Arrays;
 
-import org.apache.beam.sdk.io.kinesis.TalendKinesisProvider;
 import org.talend.components.api.container.RuntimeContainer;
 import org.talend.components.common.datastore.runtime.DatastoreRuntime;
 import org.talend.components.kinesis.KinesisDatastoreProperties;
 import org.talend.daikon.properties.ValidationResult;
 
-import com.amazonaws.regions.Regions;
 import com.amazonaws.services.kinesis.AmazonKinesis;
 import com.amazonaws.services.kinesis.model.ListStreamsResult;
 
@@ -39,11 +37,7 @@ public class KinesisDatastoreRuntime implements DatastoreRuntime<KinesisDatastor
 
     @Override
     public Iterable<ValidationResult> doHealthChecks(RuntimeContainer container) {
-        TalendKinesisProvider clientProvider = new TalendKinesisProvider(properties.specifyCredentials.getValue(),
-                properties.accessKey.getValue(), properties.secretKey.getValue(), Regions.DEFAULT_REGION,
-                properties.specifySTS.getValue(), properties.roleArn.getValue(), properties.roleSessionName.getValue(),
-                properties.roleExternalId.getValue());
-        AmazonKinesis amazonKinesis = clientProvider.get();
+        AmazonKinesis amazonKinesis = KinesisClient.create(properties);
         try {
             ListStreamsResult listStreamsResult = amazonKinesis.listStreams();
             return Arrays.asList(ValidationResult.OK);

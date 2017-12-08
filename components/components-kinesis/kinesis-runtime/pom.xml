@@ -117,8 +117,55 @@
                         <aws.sts.role.arn>${aws.sts.role.arn}</aws.sts.role.arn>
                         <aws.sts.role.sessionname>${aws.sts.role.sessionname}</aws.sts.role.sessionname>
                         <aws.sts.role.externalid>${aws.sts.role.externalid}</aws.sts.role.externalid>
+                        <localstack.kinesis.endpoint>http://${docker.host.address}:${kinesis.port}
+                        </localstack.kinesis.endpoint>
                     </systemPropertyVariables>
+                    <environmentVariables>
+                        <!-- for localstack https://github.com/mhart/kinesalite#cbor-protocol-issues-with-the-java-sdk -->
+                        <AWS_CBOR_DISABLE>true</AWS_CBOR_DISABLE>
+                    </environmentVariables>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.15.1</version>
+
+                <executions>
+                    <execution>
+                        <id>start</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${really.skip.tests}</skip>
+                            <images>
+                                <image>
+                                    <name>localstack/localstack</name>
+                                    <run>
+                                        <ports>
+                                            <port>kinesis.port:4568</port>
+                                        </ports>
+                                        <wait>
+                                            <time>10000</time>
+                                        </wait>
+                                    </run>
+                                </image>
+                            </images>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>stop</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${really.skip.tests}</skip>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

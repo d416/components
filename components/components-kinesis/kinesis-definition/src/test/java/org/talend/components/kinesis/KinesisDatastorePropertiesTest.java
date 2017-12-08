@@ -39,7 +39,7 @@ public class KinesisDatastorePropertiesTest {
      * Useful constant listing all of the fields in the properties.
      */
     public static final List<String> ALL = Arrays.asList("specifyCredentials", "accessKey", "secretKey", "specifySTS",
-            "roleArn", "roleSessionName", "roleExternalId");
+            "roleArn", "roleSessionName", "roleExternalId", "specifyEndpoint", "endpoint");
 
     @Rule
     public ErrorCollector errorCollector = new ErrorCollector();
@@ -99,6 +99,12 @@ public class KinesisDatastorePropertiesTest {
         assertFalse(properties.roleArn.isRequired());
         assertFalse(properties.roleSessionName.isRequired());
         assertFalse(properties.roleExternalId.isRequired());
+
+        assertTrue(main.getWidget("specifyEndpoint").isVisible());
+        assertFalse(main.getWidget("endpoint").isVisible());
+        assertTrue(properties.specifyEndpoint.isRequired());
+        assertFalse(properties.endpoint.isRequired());
+
     }
 
     /**
@@ -141,6 +147,20 @@ public class KinesisDatastorePropertiesTest {
         // set back false to specify STS
         properties.specifySTS.setValue(false);
         properties.afterSpecifySTS();
+        testSetupLayout();
+
+        // set true to specify endpoint
+        properties.specifyEndpoint.setValue(true);
+        properties.afterSpecifyEndpoint();
+
+        assertTrue(main.getWidget("specifyEndpoint").isVisible());
+        assertTrue(main.getWidget("endpoint").isVisible());
+        assertTrue(properties.specifyEndpoint.isRequired());
+        assertTrue(properties.endpoint.isRequired());
+
+        // set back false to specify endpoint
+        properties.specifyEndpoint.setValue(false);
+        properties.afterSpecifyEndpoint();
         testSetupLayout();
     }
 }

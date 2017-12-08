@@ -41,6 +41,10 @@ public class KinesisDatastoreProperties extends PropertiesImpl implements Datast
 
     public Property<String> roleExternalId = PropertyFactory.newString("roleExternalId");
 
+    public Property<Boolean> specifyEndpoint = PropertyFactory.newBoolean("specifyEndpoint", false).setRequired();
+
+    public Property<String> endpoint = PropertyFactory.newString("endpoint");
+
     public KinesisDatastoreProperties(String name) {
         super(name);
     }
@@ -56,6 +60,8 @@ public class KinesisDatastoreProperties extends PropertiesImpl implements Datast
         mainForm.addRow(roleArn);
         mainForm.addRow(roleSessionName);
         mainForm.addRow(roleExternalId);
+        mainForm.addRow(specifyEndpoint);
+        mainForm.addRow(endpoint);
     }
 
     @Override
@@ -77,6 +83,9 @@ public class KinesisDatastoreProperties extends PropertiesImpl implements Datast
             form.getWidget(roleArn.getName()).setVisible(isSpecifySTS);
             form.getWidget(roleSessionName.getName()).setVisible(isSpecifySTS);
             form.getWidget(roleExternalId.getName()).setVisible(isSpecifySTS);
+
+            endpoint.setRequired(specifyEndpoint.getValue());
+            form.getWidget(endpoint.getName()).setVisible(specifyEndpoint.getValue());
         }
     }
 
@@ -85,6 +94,10 @@ public class KinesisDatastoreProperties extends PropertiesImpl implements Datast
     }
 
     public void afterSpecifySTS() {
+        refreshLayout(getForm(Form.MAIN));
+    }
+
+    public void afterSpecifyEndpoint() {
         refreshLayout(getForm(Form.MAIN));
     }
 

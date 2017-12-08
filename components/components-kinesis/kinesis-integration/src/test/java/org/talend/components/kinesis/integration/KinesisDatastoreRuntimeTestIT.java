@@ -1,6 +1,7 @@
 package org.talend.components.kinesis.integration;
 
-import org.apache.commons.lang3.StringUtils;
+import static org.talend.components.kinesis.integration.KinesisTestConstants.getDatastore;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.talend.components.common.datastore.runtime.DatastoreRuntime;
@@ -14,19 +15,6 @@ import org.talend.daikon.sandbox.SandboxedInstance;
 public class KinesisDatastoreRuntimeTestIT {
 
     private final KinesisDatastoreDefinition def = new KinesisDatastoreDefinition();
-
-    public KinesisDatastoreProperties getDatastore() {
-        KinesisDatastoreProperties datastore = new KinesisDatastoreProperties("kinesisDatastore");
-        String awsAccessKey = System.getProperty("aws.accesskey");
-        String awsSecretKey = System.getProperty("aws.secretkey");
-        if (StringUtils.isEmpty(awsAccessKey) || StringUtils.isEmpty(awsSecretKey)) {
-            datastore.specifyCredentials.setValue(false);
-        } else {
-            datastore.accessKey.setValue(awsAccessKey);
-            datastore.secretKey.setValue(awsSecretKey);
-        }
-        return datastore;
-    }
 
     @Test
     public void doHealthChecks() {
