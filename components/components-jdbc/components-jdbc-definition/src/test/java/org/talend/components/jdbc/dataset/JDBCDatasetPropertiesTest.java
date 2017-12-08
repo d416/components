@@ -81,35 +81,35 @@ public class JDBCDatasetPropertiesTest {
     }
     
     @Test
-    public void testGetSqlWithQueryCheck1() {
+    public void testGetSqlWithQueryCheckCommonCase() {
         dataset.sql.setValue("select * \n from abc where aaa \n group by bbb \n order by ccc");
         dataset.sourceType.setValue(SourceType.QUERY);
         assertEquals("select * \n from abc where aaa \n group by bbb \n order by ccc", dataset.getSql());
     }
     
     @Test(expected = TalendRuntimeException.class)
-    public void testGetSqlWithQueryCheck2() {
+    public void testGetSqlWithQueryCheckINTOCase() {
         dataset.sql.setValue("select * \n from abc INTO xyz");
         dataset.sourceType.setValue(SourceType.QUERY);
         dataset.getSql();
     }
     
     @Test(expected = TalendRuntimeException.class)
-    public void testGetSqlWithQueryCheck3() {
+    public void testGetSqlWithQueryCheckFORUPDATELowerCase() {
         dataset.sql.setValue("select * \n from abc for update  ");
         dataset.sourceType.setValue(SourceType.QUERY);
         dataset.getSql();
     }
     
     @Test(expected = TalendRuntimeException.class)
-    public void testGetSqlWithQueryCheck4() {
+    public void testGetSqlWithQueryCheckFORUPDATEUpperCase() {
         dataset.sql.setValue("select * \n from abc FOR UPDATE");
         dataset.sourceType.setValue(SourceType.QUERY);
         dataset.getSql();
     }
     
     @Test(expected = TalendRuntimeException.class)
-    public void testGetSqlWithQueryCheck5() {
+    public void testGetSqlWithQueryCheckLOCKINSHAREDMODECase() {
         dataset.sql.setValue("select * \n from abc LOCK  \n IN    SHARE    MODE ");
         dataset.sourceType.setValue(SourceType.QUERY);
         dataset.getSql();
