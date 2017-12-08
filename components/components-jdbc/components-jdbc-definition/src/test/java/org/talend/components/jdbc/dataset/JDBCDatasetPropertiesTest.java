@@ -82,9 +82,9 @@ public class JDBCDatasetPropertiesTest {
     
     @Test
     public void testGetSqlWithQueryCheckCommonCase() {
-        dataset.sql.setValue("select * \n from abc where aaa \n group by bbb \n order by ccc");
+        dataset.sql.setValue("select id, name, intoone \n from abc where aaa \n group by bbb \n order by ccc");
         dataset.sourceType.setValue(SourceType.QUERY);
-        assertEquals("select * \n from abc where aaa \n group by bbb \n order by ccc", dataset.getSql());
+        assertEquals("select id, name, intoone \n from abc where aaa \n group by bbb \n order by ccc", dataset.getSql());
     }
     
     @Test(expected = TalendRuntimeException.class)

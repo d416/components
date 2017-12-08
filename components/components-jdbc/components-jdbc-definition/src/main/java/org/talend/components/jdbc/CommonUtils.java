@@ -174,7 +174,7 @@ public class CommonUtils {
         setting.setPassword(connection.userPassword.password.getValue());
     }
 
-    private static Pattern pattern = Pattern.compile("^SELECT\\s+((?!((INTO)|(FOR\\s+UPDATE)|(LOCK\\s+IN\\s+SHARE\\s+MODE))).)+$",
+    private static Pattern pattern = Pattern.compile("^SELECT\\s+((?!((\\bINTO\\b)|(\\bFOR\\s+UPDATE\\b)|(\\bLOCK\\s+IN\\s+SHARE\\s+MODE\\b))).)+$",
             Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
 
     /**
