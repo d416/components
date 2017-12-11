@@ -12,6 +12,7 @@
 // ============================================================================
 package org.talend.components.salesforce;
 
+import static org.talend.components.common.oauth.OAuth2FlowType.JWT_Flow;
 import static org.talend.components.salesforce.SalesforceDefinition.SOURCE_OR_SINK_CLASS;
 import static org.talend.components.salesforce.SalesforceDefinition.USE_CURRENT_JVM_PROPS;
 import static org.talend.components.salesforce.SalesforceDefinition.getSandboxedInstance;
@@ -173,6 +174,9 @@ public class SalesforceConnectionProperties extends ComponentPropertiesImpl
 
     public void afterLoginType() {
         updateEndpoint();
+        if(LoginType.OAuth.equals(loginType.getValue()) && oauth2FlowType.getValue() == null) {
+            oauth2FlowType.setValue(JWT_Flow); //set the default value
+        }
 
         refreshLayout(getForm(Form.MAIN));
         refreshLayout(getForm(FORM_WIZARD));
