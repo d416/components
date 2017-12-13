@@ -73,6 +73,11 @@ public class KinesisDatasetRuntime implements IKinesisDatasetRuntime {
         KinesisInputProperties inputProperties = new KinesisInputProperties(null);
         inputProperties.init();
         inputProperties.setDatasetProperties(properties);
+        inputProperties.useMaxNumRecords.setValue(true);
+        inputProperties.maxNumRecords.setValue(limit);
+        inputProperties.useMaxReadTime.setValue(true);
+        inputProperties.maxReadTime.setValue(10000l);
+        inputProperties.position.setValue(KinesisInputProperties.OffsetType.EARLIEST);
         inputRuntime.initialize(null, inputProperties);
 
         // Create a pipeline using the input component to get records.
