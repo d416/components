@@ -10,26 +10,30 @@ import com.amazonaws.services.kinesis.AmazonKinesis;
 
 public class KinesisClient {
 
-    public static AmazonKinesis create(KinesisDatastoreProperties datastore) {
-        TalendKinesisProvider clientProvider = new TalendKinesisProvider(datastore.specifyCredentials.getValue(),
-                datastore.accessKey.getValue(), datastore.secretKey.getValue(), Regions.DEFAULT_REGION,
-                datastore.specifySTS.getValue(), datastore.roleArn.getValue(), datastore.roleSessionName.getValue(),
-                datastore.roleExternalId.getValue(), datastore.specifyEndpoint.getValue(),
-                datastore.endpoint.getValue());
-        return clientProvider.get();
+    public static TalendKinesisProvider getProvider(KinesisDatastoreProperties datastore) {
+        return new TalendKinesisProvider(datastore.specifyCredentials.getValue(), datastore.accessKey.getValue(),
+                datastore.secretKey.getValue(), Regions.DEFAULT_REGION, datastore.specifySTS.getValue(),
+                datastore.roleArn.getValue(), datastore.roleSessionName.getValue(), datastore.roleExternalId.getValue(),
+                datastore.specifyEndpoint.getValue(), datastore.endpoint.getValue());
     }
 
-    public static AmazonKinesis create(KinesisDatasetProperties dataset) {
+    public static AmazonKinesis create(KinesisDatastoreProperties datastore) {
+        return getProvider(datastore).get();
+    }
+
+    public static TalendKinesisProvider getProvider(KinesisDatasetProperties dataset) {
         KinesisDatastoreProperties datastore = dataset.getDatastoreProperties();
         String region = dataset.region.getValue().getValue();
         if (KinesisRegion.OTHER.getValue().equals(region)) {
             region = dataset.unknownRegion.getValue();
         }
-        TalendKinesisProvider clientProvider = new TalendKinesisProvider(datastore.specifyCredentials.getValue(),
-                datastore.accessKey.getValue(), datastore.secretKey.getValue(), Regions.fromName(region),
-                datastore.specifySTS.getValue(), datastore.roleArn.getValue(), datastore.roleSessionName.getValue(),
-                datastore.roleExternalId.getValue(), datastore.specifyEndpoint.getValue(),
-                datastore.endpoint.getValue());
-        return clientProvider.get();
+        return new TalendKinesisProvider(datastore.specifyCredentials.getValue(), datastore.accessKey.getValue(),
+                datastore.secretKey.getValue(), Regions.fromName(region), datastore.specifySTS.getValue(),
+                datastore.roleArn.getValue(), datastore.roleSessionName.getValue(), datastore.roleExternalId.getValue(),
+                datastore.specifyEndpoint.getValue(), datastore.endpoint.getValue());
+    }
+
+    public static AmazonKinesis create(KinesisDatasetProperties dataset) {
+        return getProvider(dataset).get();
     }
 }

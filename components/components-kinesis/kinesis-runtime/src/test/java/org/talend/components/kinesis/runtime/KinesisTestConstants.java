@@ -4,6 +4,7 @@ import org.apache.beam.sdk.repackaged.org.apache.commons.lang3.StringUtils;
 import org.talend.components.kinesis.KinesisDatasetProperties;
 import org.talend.components.kinesis.KinesisDatastoreProperties;
 import org.talend.components.kinesis.KinesisRegion;
+import org.talend.components.kinesis.input.KinesisInputProperties;
 
 public class KinesisTestConstants {
 
@@ -51,6 +52,45 @@ public class KinesisTestConstants {
             dataset.unknownRegion.setValue(customRegion);
         }
         return dataset;
+    }
+
+    public static KinesisDatasetProperties getDatasetForCsv(KinesisDatastoreProperties datastore, String streamName,
+            String fieldDelimiter) {
+        KinesisDatasetProperties dataset = new KinesisDatasetProperties("kinesisDataset");
+        dataset.init();
+        dataset.setDatastoreProperties(datastore);
+        dataset.streamName.setValue(streamName);
+        dataset.valueFormat.setValue(KinesisDatasetProperties.ValueFormat.CSV);
+        dataset.fieldDelimiter.setValue(fieldDelimiter);
+        return dataset;
+    }
+
+    public static KinesisDatasetProperties getDatasetForAvro(KinesisDatastoreProperties datastore, String streamName,
+            String avroSchema) {
+        KinesisDatasetProperties dataset = new KinesisDatasetProperties("kinesisDataset");
+        dataset.init();
+        dataset.setDatastoreProperties(datastore);
+        dataset.streamName.setValue(streamName);
+        dataset.valueFormat.setValue(KinesisDatasetProperties.ValueFormat.AVRO);
+        dataset.avroSchema.setValue(avroSchema);
+        return dataset;
+    }
+
+    public static KinesisInputProperties getInputFromBeginning(KinesisDatasetProperties dataset, Long maxReadTime,
+            Integer maxNumRecords) {
+        KinesisInputProperties input = new KinesisInputProperties("kinesisInput");
+        input.init();
+        input.setDatasetProperties(dataset);
+        input.position.setValue(KinesisInputProperties.OffsetType.EARLIEST);
+        if (maxReadTime != null) {
+            input.useMaxReadTime.setValue(true);
+            input.maxReadTime.setValue(maxReadTime);
+        }
+        if (maxNumRecords != null) {
+            input.useMaxNumRecords.setValue(true);
+            input.maxNumRecords.setValue(maxNumRecords);
+        }
+        return input;
     }
 
 }
