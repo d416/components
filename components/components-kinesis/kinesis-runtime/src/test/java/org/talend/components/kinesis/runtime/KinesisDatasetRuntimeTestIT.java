@@ -89,8 +89,7 @@ public class KinesisDatasetRuntimeTestIT {
     // Can't use localstack to list streams by region
     @Test
     public void listStreams() {
-        runtime.initialize(null, getDatasetForListStreams(getLocalDatastore(),
-                KinesisRegion.DEFAULT, null));
+        runtime.initialize(null, getDatasetForListStreams(getLocalDatastore(), KinesisRegion.DEFAULT, null));
         Set<String> streams = runtime.listStreams();
         assertEquals(streams, streamsName);
     }
