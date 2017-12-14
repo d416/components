@@ -25,9 +25,11 @@ public class KinesisClient {
 
     public static TalendKinesisProvider getProvider(KinesisDatastoreProperties datastore) {
         return new TalendKinesisProvider(datastore.specifyCredentials.getValue(), datastore.accessKey.getValue(),
-                datastore.secretKey.getValue(), Regions.DEFAULT_REGION, datastore.specifySTS.getValue(),
-                datastore.roleArn.getValue(), datastore.roleSessionName.getValue(), datastore.roleExternalId.getValue(),
-                datastore.specifyEndpoint.getValue(), datastore.endpoint.getValue());
+                datastore.secretKey.getValue(), datastore.specifyEndpoint.getValue(), datastore.endpoint.getValue(),
+                Regions.DEFAULT_REGION, datastore.specifySTS.getValue(), datastore.roleArn.getValue(),
+                datastore.roleSessionName.getValue(), datastore.specifyRoleExternalId.getValue(),
+                datastore.roleExternalId.getValue(), datastore.specifySTSEndpoint.getValue(),
+                datastore.stsEndpoint.getValue());
     }
 
     public static AmazonKinesis create(KinesisDatastoreProperties datastore) {
@@ -41,9 +43,11 @@ public class KinesisClient {
             region = dataset.unknownRegion.getValue();
         }
         return new TalendKinesisProvider(datastore.specifyCredentials.getValue(), datastore.accessKey.getValue(),
-                datastore.secretKey.getValue(), Regions.fromName(region), datastore.specifySTS.getValue(),
-                datastore.roleArn.getValue(), datastore.roleSessionName.getValue(), datastore.roleExternalId.getValue(),
-                datastore.specifyEndpoint.getValue(), datastore.endpoint.getValue());
+                datastore.secretKey.getValue(), datastore.specifyEndpoint.getValue(), datastore.endpoint.getValue(),
+                Regions.fromName(region), datastore.specifySTS.getValue(), datastore.roleArn.getValue(),
+                datastore.roleSessionName.getValue(), datastore.specifyRoleExternalId.getValue(),
+                datastore.roleExternalId.getValue(), datastore.specifySTSEndpoint.getValue(),
+                datastore.stsEndpoint.getValue());
     }
 
     public static AmazonKinesis create(KinesisDatasetProperties dataset) {

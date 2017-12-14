@@ -40,9 +40,9 @@
                                 <fileSet>
                                     <directory>${project.basedir}</directory>
                                     <includes>
-                                        <include>pubsub-definition/target/jacoco.exec</include>
-                                        <include>pubsub-runtime/target/jacoco.exec</include>
-                                        <include>pubsub-integration/target/jacoco.exec</include>
+                                        <include>kinesis-definition/target/jacoco.exec</include>
+                                        <include>kinesis-runtime/target/jacoco.exec</include>
+                                        <include>kinesis-integration/target/jacoco.exec</include>
                                     </includes>
                                 </fileSet>
                             </fileSets>
@@ -60,9 +60,9 @@
                                 <fileSet>
                                     <directory>${project.basedir}</directory>
                                     <includes>
-                                        <include>pubsub-definition/target/jacoco-it.exec</include>
-                                        <include>pubsub-runtime/target/jacoco-it.exec</include>
-                                        <include>pubsub-integration/target/jacoco-it.exec</include>
+                                        <include>kinesis-definition/target/jacoco-it.exec</include>
+                                        <include>kinesis-runtime/target/jacoco-it.exec</include>
+                                        <include>kinesis-integration/target/jacoco-it.exec</include>
                                     </includes>
                                 </fileSet>
                             </fileSets>

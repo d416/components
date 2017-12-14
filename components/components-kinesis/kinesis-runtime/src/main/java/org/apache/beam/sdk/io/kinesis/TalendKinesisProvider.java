@@ -18,8 +18,7 @@ import org.apache.beam.sdk.io.kinesis.auth.BasicAWSCredentialsProvider;
 
 import com.amazonaws.auth.AWSCredentialsProviderChain;
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
-import com.amazonaws.auth.profile.internal.securitytoken.RoleInfo;
-import com.amazonaws.auth.profile.internal.securitytoken.STSProfileCredentialsServiceProvider;
+import com.amazonaws.auth.STSAssumeRoleSessionCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.kinesis.AmazonKinesis;
 import com.amazonaws.services.kinesis.AmazonKinesisClient;
@@ -34,32 +33,42 @@ public class TalendKinesisProvider implements KinesisClientProvider {
 
     private final Regions region;
 
+    private final boolean specifyEndpoint;
+
+    private final String endpoint;
+
     private final boolean specifySTS;
 
     private final String roleArn;
 
     private final String roleSessionName;
 
-    private final String externalId;
+    private final boolean specifyRoleExternalId;
 
-    private final boolean specifyEndpoint;
+    private final String roleExternalId;
 
-    private final String endpoint;
+    private final boolean specifySTSEndpoint;
+
+    private final String stsEndpoint;
 
     // TODO add builder
-    public TalendKinesisProvider(boolean specifyCredentials, String accessKey, String secretKey, Regions region,
-            boolean specifySTS, String roleArn, String roleSessionName, String externalId, boolean specifyEndpoint,
-            String endpoint) {
+    public TalendKinesisProvider(boolean specifyCredentials, String accessKey, String secretKey,
+            boolean specifyEndpoint, String endpoint, Regions region, boolean specifySTS, String roleArn,
+            String roleSessionName, boolean specifyRoleExternalId, String roleExternalId, boolean specifySTSEndpoint,
+            String stsEndpoint) {
         this.specifyCredentials = specifyCredentials;
         this.accessKey = accessKey;
         this.secretKey = secretKey;
         this.region = region;
+        this.specifyEndpoint = specifyEndpoint;
+        this.endpoint = endpoint;
         this.specifySTS = specifySTS;
         this.roleArn = roleArn;
         this.roleSessionName = roleSessionName;
-        this.externalId = externalId;
-        this.specifyEndpoint = specifyEndpoint;
-        this.endpoint = endpoint;
+        this.specifyRoleExternalId = specifyRoleExternalId;
+        this.roleExternalId = roleExternalId;
+        this.specifySTSEndpoint = specifySTSEndpoint;
+        this.stsEndpoint = stsEndpoint;
     }
 
     @Override
@@ -74,13 +83,16 @@ public class TalendKinesisProvider implements KinesisClientProvider {
                     new AnonymousAWSCredentialsProvider());
         }
         if (specifySTS) {
-            RoleInfo stsRoleInfo = new RoleInfo();
-            stsRoleInfo.withRoleArn(roleArn);
-            stsRoleInfo.withRoleSessionName(roleSessionName);
-            stsRoleInfo.withExternalId(externalId);
-            stsRoleInfo.withLongLivedCredentialsProvider(credentials);
-            // need to consider DefaultAWSCredentialsProviderChain and AnonymousAWSCredentialsProvider after?
-            credentials = new AWSCredentialsProviderChain(new STSProfileCredentialsServiceProvider(stsRoleInfo));
+            STSAssumeRoleSessionCredentialsProvider.Builder builder =
+                    new STSAssumeRoleSessionCredentialsProvider.Builder(roleArn, roleSessionName)
+                            .withLongLivedCredentialsProvider(credentials);
+            if (specifyRoleExternalId) {
+                builder = builder.withExternalId(roleExternalId);
+            }
+            if (specifySTSEndpoint) {
+                builder = builder.withServiceEndpoint(stsEndpoint);
+            }
+            credentials = new AWSCredentialsProviderChain(builder.build());
         }
         AmazonKinesisClient client = new AmazonKinesisClient(credentials);
         client.withRegion(region);

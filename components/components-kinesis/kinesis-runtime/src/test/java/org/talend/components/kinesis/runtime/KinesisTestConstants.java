@@ -55,6 +55,30 @@ public class KinesisTestConstants {
         return datastore;
     }
 
+    public static KinesisDatastoreProperties getDatastoreForRoleAssume() {
+        KinesisDatastoreProperties datastore = new KinesisDatastoreProperties("kinesisDatastore");
+        datastore.init();
+        datastore.specifySTS.setValue(true);
+        String awsAccessKey = System.getProperty("aws.sts.role.accesskey");
+        String awsSecretKey = System.getProperty("aws.sts.role.secretkey");
+        if (StringUtils.isEmpty(awsAccessKey) || StringUtils.isEmpty(awsSecretKey)) {
+            datastore.specifyCredentials.setValue(false);
+        } else {
+            datastore.accessKey.setValue(awsAccessKey);
+            datastore.secretKey.setValue(awsSecretKey);
+        }
+        String roleArn = System.getProperty("aws.sts.role.arn");
+        String roleSessionName = System.getProperty("aws.sts.role.sessionname");
+        String roleExternalId = System.getProperty("aws.sts.role.externalid");
+        datastore.roleArn.setValue(roleArn);
+        datastore.roleSessionName.setValue(roleSessionName);
+        if (!StringUtils.isEmpty(roleExternalId)) {
+            datastore.specifyRoleExternalId.setValue(true);
+            datastore.roleExternalId.setValue(roleExternalId);
+        }
+        return datastore;
+    }
+
     public static KinesisDatasetProperties getDatasetForListStreams(KinesisDatastoreProperties datastore,
             KinesisRegion region, String customRegion) {
         KinesisDatasetProperties dataset = new KinesisDatasetProperties("kinesisDataset");

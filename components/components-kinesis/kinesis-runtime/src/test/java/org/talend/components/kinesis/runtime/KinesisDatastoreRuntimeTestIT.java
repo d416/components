@@ -14,6 +14,7 @@
 package org.talend.components.kinesis.runtime;
 
 import static org.talend.components.kinesis.runtime.KinesisTestConstants.getDatastore;
+import static org.talend.components.kinesis.runtime.KinesisTestConstants.getDatastoreForRoleAssume;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -50,6 +51,50 @@ public class KinesisDatastoreRuntimeTestIT {
         {
             KinesisDatastoreProperties wrongSecret = getDatastore();
             wrongSecret.secretKey.setValue("wrong");
+            runtime.initialize(null, wrongSecret);
+            validationResults = runtime.doHealthChecks(null);
+            Assert.assertEquals(ValidationResult.Result.ERROR, validationResults.iterator().next().getStatus());
+        }
+    }
+
+    @Test
+    public void doHealthChecksForRoleAssume() {
+
+        runtime.initialize(null, getDatastoreForRoleAssume());
+        Iterable<ValidationResult> validationResults = runtime.doHealthChecks(null);
+        Assert.assertEquals(ValidationResult.OK, validationResults.iterator().next());
+
+        // Wrong access key
+        {
+            KinesisDatastoreProperties wrongAccess = getDatastoreForRoleAssume();
+            wrongAccess.accessKey.setValue("wrong");
+            runtime.initialize(null, wrongAccess);
+            validationResults = runtime.doHealthChecks(null);
+            Assert.assertEquals(ValidationResult.Result.ERROR, validationResults.iterator().next().getStatus());
+        }
+
+        // Wrong screct key
+        {
+            KinesisDatastoreProperties wrongSecret = getDatastoreForRoleAssume();
+            wrongSecret.secretKey.setValue("wrong");
+            runtime.initialize(null, wrongSecret);
+            validationResults = runtime.doHealthChecks(null);
+            Assert.assertEquals(ValidationResult.Result.ERROR, validationResults.iterator().next().getStatus());
+        }
+
+        // Wrong arn
+        {
+            KinesisDatastoreProperties wrongSecret = getDatastoreForRoleAssume();
+            wrongSecret.roleArn.setValue("wrong");
+            runtime.initialize(null, wrongSecret);
+            validationResults = runtime.doHealthChecks(null);
+            Assert.assertEquals(ValidationResult.Result.ERROR, validationResults.iterator().next().getStatus());
+        }
+
+        // Wrong external id
+        {
+            KinesisDatastoreProperties wrongSecret = getDatastoreForRoleAssume();
+            wrongSecret.roleExternalId.setValue("wrong");
             runtime.initialize(null, wrongSecret);
             validationResults = runtime.doHealthChecks(null);
             Assert.assertEquals(ValidationResult.Result.ERROR, validationResults.iterator().next().getStatus());

@@ -16,6 +16,7 @@ package org.talend.components.kinesis;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -38,8 +39,9 @@ public class KinesisDatastorePropertiesTest {
     /**
      * Useful constant listing all of the fields in the properties.
      */
-    public static final List<String> ALL = Arrays.asList("specifyCredentials", "accessKey", "secretKey", "specifySTS",
-            "roleArn", "roleSessionName", "roleExternalId", "specifyEndpoint", "endpoint");
+    public static final List<String> ALL = Arrays.asList("specifyCredentials", "accessKey", "secretKey",
+            "specifyEndpoint", "endpoint", "specifySTS", "roleArn", "roleSessionName", "specifyRoleExternalId",
+            "roleExternalId", "specifySTSEndpoint", "stsEndpoint");
 
     @Rule
     public ErrorCollector errorCollector = new ErrorCollector();
@@ -64,7 +66,12 @@ public class KinesisDatastorePropertiesTest {
     @Test
     public void testDefaultProperties() {
         assertTrue(properties.specifyCredentials.getValue());
+        assertFalse(properties.specifyEndpoint.getValue());
         assertFalse(properties.specifySTS.getValue());
+        assertFalse(properties.specifyRoleExternalId.getValue());
+        assertFalse(properties.specifySTSEndpoint.getValue());
+        assertEquals("kinesis.us-east-1.amazonaws.com", properties.endpoint.getValue());
+        assertEquals("sts.amazonaws.com", properties.stsEndpoint.getValue());
     }
 
     /**
@@ -91,19 +98,26 @@ public class KinesisDatastorePropertiesTest {
         assertTrue(properties.secretKey.isRequired());
         assertThat(main.getWidget("secretKey").getWidgetType(), is(Widget.HIDDEN_TEXT_WIDGET_TYPE));
 
-        assertTrue(main.getWidget("specifySTS").isVisible());
-        assertFalse(main.getWidget("roleArn").isVisible());
-        assertFalse(main.getWidget("roleSessionName").isVisible());
-        assertFalse(main.getWidget("roleExternalId").isVisible());
-        assertTrue(properties.specifySTS.isRequired());
-        assertFalse(properties.roleArn.isRequired());
-        assertFalse(properties.roleSessionName.isRequired());
-        assertFalse(properties.roleExternalId.isRequired());
-
         assertTrue(main.getWidget("specifyEndpoint").isVisible());
         assertFalse(main.getWidget("endpoint").isVisible());
         assertTrue(properties.specifyEndpoint.isRequired());
         assertFalse(properties.endpoint.isRequired());
+
+        assertTrue(main.getWidget("specifySTS").isVisible());
+        assertFalse(main.getWidget("roleArn").isVisible());
+        assertFalse(main.getWidget("roleSessionName").isVisible());
+        assertFalse(main.getWidget("specifyRoleExternalId").isVisible());
+        assertFalse(main.getWidget("roleExternalId").isVisible());
+        assertFalse(main.getWidget("specifySTSEndpoint").isVisible());
+        assertFalse(main.getWidget("stsEndpoint").isVisible());
+        assertTrue(properties.specifySTS.isRequired());
+        assertFalse(properties.roleArn.isRequired());
+        assertFalse(properties.roleSessionName.isRequired());
+        assertFalse(properties.specifyRoleExternalId.isRequired());
+        assertFalse(properties.roleExternalId.isRequired());
+        assertFalse(properties.specifySTSEndpoint.isRequired());
+        assertFalse(properties.stsEndpoint.isRequired());
+
 
     }
 
@@ -131,24 +145,6 @@ public class KinesisDatastorePropertiesTest {
         properties.afterSpecifyCredentials();
         testSetupLayout();
 
-        // set true to specify STS
-        properties.specifySTS.setValue(true);
-        properties.afterSpecifySTS();
-
-        assertTrue(main.getWidget("specifySTS").isVisible());
-        assertTrue(main.getWidget("roleArn").isVisible());
-        assertTrue(main.getWidget("roleSessionName").isVisible());
-        assertTrue(main.getWidget("roleExternalId").isVisible());
-        assertTrue(properties.specifySTS.isRequired());
-        assertTrue(properties.roleArn.isRequired());
-        assertTrue(properties.roleSessionName.isRequired());
-        assertTrue(properties.roleExternalId.isRequired());
-
-        // set back false to specify STS
-        properties.specifySTS.setValue(false);
-        properties.afterSpecifySTS();
-        testSetupLayout();
-
         // set true to specify endpoint
         properties.specifyEndpoint.setValue(true);
         properties.afterSpecifyEndpoint();
@@ -162,5 +158,47 @@ public class KinesisDatastorePropertiesTest {
         properties.specifyEndpoint.setValue(false);
         properties.afterSpecifyEndpoint();
         testSetupLayout();
+
+        // set true to specify STS
+        properties.specifySTS.setValue(true);
+        properties.afterSpecifySTS();
+
+        assertTrue(main.getWidget("specifySTS").isVisible());
+        assertTrue(main.getWidget("roleArn").isVisible());
+        assertTrue(main.getWidget("roleSessionName").isVisible());
+        assertTrue(main.getWidget("specifyRoleExternalId").isVisible());
+        assertFalse(main.getWidget("roleExternalId").isVisible());
+        assertTrue(main.getWidget("specifySTSEndpoint").isVisible());
+        assertFalse(main.getWidget("stsEndpoint").isVisible());
+        assertTrue(properties.specifySTS.isRequired());
+        assertTrue(properties.roleArn.isRequired());
+        assertTrue(properties.roleSessionName.isRequired());
+        assertTrue(properties.specifyRoleExternalId.isRequired());
+        assertFalse(properties.roleExternalId.isRequired());
+        assertTrue(properties.specifySTSEndpoint.isRequired());
+        assertFalse(properties.stsEndpoint.isRequired());
+
+        properties.specifyRoleExternalId.setValue(true);
+        properties.afterSpecifyRoleExternalId();
+
+        assertTrue(main.getWidget("specifyRoleExternalId").isVisible());
+        assertTrue(main.getWidget("roleExternalId").isVisible());
+        assertTrue(properties.specifyRoleExternalId.isRequired());
+        assertTrue(properties.roleExternalId.isRequired());
+
+        properties.specifySTSEndpoint.setValue(true);
+        properties.afterSpecifySTSEndpoint();
+
+        assertTrue(main.getWidget("specifySTSEndpoint").isVisible());
+        assertTrue(main.getWidget("stsEndpoint").isVisible());
+        assertTrue(properties.specifySTSEndpoint.isRequired());
+        assertTrue(properties.stsEndpoint.isRequired());
+
+        // set back false to specify STS
+        properties.specifySTS.setValue(false);
+        properties.afterSpecifySTS();
+        testSetupLayout();
+
+
     }
 }

@@ -49,6 +49,11 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-sts</artifactId>
+            <version>1.11.18</version>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
@@ -133,6 +138,8 @@
                         <aws.sts.role.arn>${aws.sts.role.arn}</aws.sts.role.arn>
                         <aws.sts.role.sessionname>${aws.sts.role.sessionname}</aws.sts.role.sessionname>
                         <aws.sts.role.externalid>${aws.sts.role.externalid}</aws.sts.role.externalid>
+                        <aws.sts.role.accesskey>${aws.sts.role.accesskey}</aws.sts.role.accesskey>
+                        <aws.sts.role.secretkey>${aws.sts.role.secretkey}</aws.sts.role.secretkey>
                         <localstack.kinesis.endpoint>http://${docker.host.address}:${kinesis.port}
                         </localstack.kinesis.endpoint>
                     </systemPropertyVariables>
