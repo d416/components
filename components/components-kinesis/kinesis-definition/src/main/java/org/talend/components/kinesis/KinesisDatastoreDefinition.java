@@ -73,7 +73,7 @@ public class KinesisDatastoreDefinition extends I18nDefinition
 
     @Override
     public String getIconKey() {
-        return "kinesis";
+        return "AWS-kinesis";
     }
 
     @Override
