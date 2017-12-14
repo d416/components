@@ -157,7 +157,7 @@ public class MarkLogicBulkLoadTest {
 
         String[] mlcpArray = bulkLoadRuntime.prepareMlcpCommandArray();
         assertThat(mlcpArray, hasItemInArray("-input_file_path"));
-        assertThat(mlcpArray, hasItemInArray("\"a b\""));
+        assertThat(mlcpArray, hasItemInArray("a b"));
     }
 
     @Test

@@ -115,9 +115,7 @@ public class MarkLogicBulkLoad implements ComponentDriverInitialization {
         if(loadPath.contains(":")){
             loadPath = "/" + loadPath;
         }
-        if(loadPath.contains(" ")) {
-            loadPath = StringUtils.wrap(loadPath, "\"");
-        }
+
         loadPath = (loadPath.replaceAll("\\\\","/"));
 
         String prefix = bulkLoadProperties.docidPrefix.getStringValue();
