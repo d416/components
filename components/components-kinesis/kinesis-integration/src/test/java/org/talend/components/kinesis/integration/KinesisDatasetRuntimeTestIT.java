@@ -14,9 +14,13 @@
 package org.talend.components.kinesis.integration;
 
 import static org.junit.Assert.assertTrue;
+import static org.talend.components.kinesis.integration.KinesisTestConstants.getDatasetForListStreams;
+import static org.talend.components.kinesis.integration.KinesisTestConstants.getDatastore;
 
 import java.util.Set;
 
+import org.junit.Assume;
+import org.junit.Before;
 import org.junit.Test;
 import org.talend.components.kinesis.KinesisDatasetDefinition;
 import org.talend.components.kinesis.KinesisDatasetProperties;
@@ -30,11 +34,15 @@ public class KinesisDatasetRuntimeTestIT {
 
     private final KinesisDatasetDefinition def = new KinesisDatasetDefinition();
 
+    @Before
+    public void init() {
+        Assume.assumeTrue(getDatastore().specifyCredentials.getValue());
+    }
+
     // Can't use localstack to list streams by region
     @Test
     public void listStreams() {
-        KinesisDatasetProperties props = KinesisTestConstants
-                .getDatasetForListStreams(KinesisTestConstants.getDatastore(), KinesisRegion.DEFAULT, null);
+        KinesisDatasetProperties props = getDatasetForListStreams(getDatastore(), KinesisRegion.DEFAULT, null);
         RuntimeInfo ri = def.getRuntimeInfo(props);
         try (SandboxedInstance si = RuntimeUtil.createRuntimeClass(ri, getClass().getClassLoader())) {
             IKinesisDatasetRuntime runtime = (IKinesisDatasetRuntime) si.getInstance();

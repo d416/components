@@ -17,6 +17,7 @@ import static org.talend.components.kinesis.runtime.KinesisTestConstants.getData
 import static org.talend.components.kinesis.runtime.KinesisTestConstants.getDatastoreForRoleAssume;
 
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 import org.talend.components.kinesis.KinesisDatastoreProperties;
@@ -28,12 +29,13 @@ public class KinesisDatastoreRuntimeTestIT {
 
     @Before
     public void init() {
+        Assume.assumeTrue(getDatastore().specifyCredentials.getValue());
+
         runtime = new KinesisDatastoreRuntime();
     }
 
     @Test
     public void doHealthChecks() {
-
         runtime.initialize(null, getDatastore());
         Iterable<ValidationResult> validationResults = runtime.doHealthChecks(null);
         Assert.assertEquals(ValidationResult.OK, validationResults.iterator().next());
@@ -59,7 +61,6 @@ public class KinesisDatastoreRuntimeTestIT {
 
     @Test
     public void doHealthChecksForRoleAssume() {
-
         runtime.initialize(null, getDatastoreForRoleAssume());
         Iterable<ValidationResult> validationResults = runtime.doHealthChecks(null);
         Assert.assertEquals(ValidationResult.OK, validationResults.iterator().next());

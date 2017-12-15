@@ -16,6 +16,8 @@ package org.talend.components.kinesis.integration;
 import static org.talend.components.kinesis.integration.KinesisTestConstants.getDatastore;
 
 import org.junit.Assert;
+import org.junit.Assume;
+import org.junit.Before;
 import org.junit.Test;
 import org.talend.components.common.datastore.runtime.DatastoreRuntime;
 import org.talend.components.kinesis.KinesisDatastoreDefinition;
@@ -28,6 +30,11 @@ import org.talend.daikon.sandbox.SandboxedInstance;
 public class KinesisDatastoreRuntimeTestIT {
 
     private final KinesisDatastoreDefinition def = new KinesisDatastoreDefinition();
+
+    @Before
+    public void init() {
+        Assume.assumeTrue(getDatastore().specifyCredentials.getValue());
+    }
 
     @Test
     public void doHealthChecks() {
