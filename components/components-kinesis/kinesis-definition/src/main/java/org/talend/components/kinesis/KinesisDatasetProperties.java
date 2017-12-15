@@ -94,9 +94,6 @@ public class KinesisDatasetProperties extends PropertiesImpl implements DatasetP
 
     public void afterRegion() {
         refreshLayout(getForm(Form.MAIN));
-    }
-
-    public void beforeStreamName() {
         KinesisDatasetDefinition definition = new KinesisDatasetDefinition();
         RuntimeInfo ri = definition.getRuntimeInfo(this);
         try (SandboxedInstance si = RuntimeUtil.createRuntimeClass(ri, getClass().getClassLoader())) {

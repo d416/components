@@ -115,7 +115,8 @@ public class KinesisDatasetPropertiesTest {
 
         // set false to specify credentials
         properties.region.setValue(KinesisRegion.OTHER);
-        properties.afterRegion();
+        // properties.afterRegion(); can't call it as it contains runtime invoke
+        properties.refreshLayout(main);
 
         assertTrue(main.getWidget("region").isVisible());
         assertTrue(main.getWidget("unknownRegion").isVisible());
@@ -124,7 +125,8 @@ public class KinesisDatasetPropertiesTest {
 
         // set back true to specify credentials
         properties.region.setValue(KinesisRegion.DEFAULT);
-        properties.afterRegion();
+        // properties.afterRegion(); can't call it as it contains runtime invoke
+        properties.refreshLayout(main);
         testSetupLayout();
 
         // set true to specify STS
