@@ -25,7 +25,7 @@ public class KinesisDatasetDefinitionTest {
 
     /**
      * Check {@link KinesisDatasetDefinition#getRuntimeInfo(KinesisDatasetProperties)} returns RuntimeInfo,
-     * which runtime class name is "org.talend.components.pubsub.runtime.PubSubDatasetRuntime"
+     * which runtime class name is "org.talend.components.kinesis.runtime.KinesisDatasetRuntime"
      */
     @Test
     @Ignore("This can't work unless the runtime jar is already installed in maven!")

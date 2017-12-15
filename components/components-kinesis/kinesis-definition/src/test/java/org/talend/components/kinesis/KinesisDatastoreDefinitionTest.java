@@ -25,7 +25,7 @@ public class KinesisDatastoreDefinitionTest {
 
     /**
      * Check {@link KinesisDatastoreDefinition#getRuntimeInfo(KinesisDatastoreProperties) returns RuntimeInfo,
-     * which runtime class name is "org.talend.components.pubsub.runtime.PubSubDatastoreRuntime"
+     * which runtime class name is "org.talend.components.kinesis.runtime.KinesisDatastoreRuntime"
      */
     @Test
     @Ignore("This can't work unless the runtime jar is already installed in maven!")
