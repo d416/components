@@ -38,8 +38,8 @@ public class JDBCDatastoreDefinitionTest {
         assertEquals("DataPrepDBInput", result.getInputCompDefinitionName());
         assertEquals(null, result.getIconKey());
         assertEquals("Database", result.getDisplayName());
-        assertEquals("JDBC Connection", result.getTitle());
-        assertEquals("JDBCDatastore/Database/JDBC Connection", result.toString());
+        assertEquals("JDBC Data Store", result.getTitle());
+        assertEquals("JDBCDatastore/Database/JDBC Data Store", result.toString());
         assertEquals("JDBCDatastore", result.getName());
     }
 
